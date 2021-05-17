@@ -66,7 +66,7 @@ module.exports.createSession = async (req, res) => {
 			return res.redirect("back");
 		}
 		//session creation
-		res.cookie("user_id", existinguser.id);
+		res.cookie("user_id", existinguser._id);
 		return res.redirect("/users/profile");
 	} catch (err) {
 		console.log("Error in user signIn", err);
