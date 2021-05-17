@@ -23,6 +23,8 @@ app.set("layout extractScripts", true);
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+
+
 //use Routes
 app.use("/", require("./routes"));
 
