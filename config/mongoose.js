@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/SocialPal_development", {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
+	useCreateIndex:true
 });
 
 const db = mongoose.connection;
