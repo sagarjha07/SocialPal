@@ -3,6 +3,10 @@ const app = express();
 const expressLayout = require("express-ejs-layouts");
 const db = require("./config/mongoose");
 const cookieParser = require("cookie-parser");
+//used for session-cookie
+const session = require("express-session");
+const passport = require("passport");
+const passportLocal = require("./config/passport-local-strategy");
 
 const PORT = 8000;
 
@@ -22,6 +26,24 @@ app.set("layout extractScripts", true);
 //set up the view engine
 app.set("view engine", "ejs");
 app.set("views", "./views");
+
+app.use(
+	session({
+		name: "SocialPal",
+		secret: "sagarkumarjha",
+		saveUninitialized: false,
+		resave: false,
+		cookie: {
+			maxAge: 1000 * 60 * 100,
+		},
+	})
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(passport.setAuthenticatedUser);
+
 
 //use Routes
 app.use("/", require("./routes"));

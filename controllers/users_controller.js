@@ -38,4 +38,6 @@ module.exports.create = async (req, res) => {
 
 
 //sign-in
-module.exports.createSession = (req, res) => {};
+module.exports.createSession = (req, res) => {
+	return res.redirect("/");
+};
