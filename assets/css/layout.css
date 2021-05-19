@@ -1,11 +1,10 @@
 * {
-	margin: 0;
-	padding: 0;
-}
+  margin: 0;
+  padding: 0; }
+
 body {
-	background-image: url("/images/bg_img.jpg");
-	background-size: cover;
-	background-repeat: no-repeat;
-	height: 100vh;
-	font-family: "Numans", sans-serif;
-}
+  background-image: url("/images/bg_img.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  font-family: "Numans", sans-serif; }
