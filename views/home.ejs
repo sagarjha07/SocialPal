@@ -1,2 +1,28 @@
 <link rel="stylesheet" href="/css/home.css">
-<h1 style="color:white">SocialPal</h1>
+<div class="container">
+    <div class="col-md-12">
+        <form action="/posts/create" id="new-post-form" method="POST">
+        <textarea name="content" class="form-control" rows="4" placeholder="What are you thinking?"></textarea>
+        <div class="mar-top clearfix">
+          <button class="btn btn-sm btn-primary pull-right share" type="submit"><i class="fa fa-pencil fa-fw"></i> Share</button>
+        </form>
+      </div>
+      <br>
+        <% for(post of posts){ %>
+          <div class="card" style="background-color:black;color: white; opacity: 0.80; margin-bottom: 4px;" >
+            <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+            <div class="card-body">
+              <h5 class="card-title"><%=post.user.name%></h5>
+              <p class="card-text"><%=post.content%></p>
+            </div>
+            <div class="card-body">
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        <%}%>
+</div>
+</div>
+
+
+

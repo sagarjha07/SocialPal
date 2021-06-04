@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/css/_header.css">
+<div id="Navbar">
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color logo">
     <a class="navbar-brand xl" href="/">SocialPal</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,10 +8,12 @@
     <div class="collapse navbar-collapse navbar-li" id="navbarSupportedContent-4">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
+          <%if(locals.user){%>
             <a class="nav-link waves-effect waves-light" href="/">
               <i class="fas fa-home"></i> Home
               <span class="sr-only">(current)</span>
             </a>
+            <%}%>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link waves-effect waves-light" href="#">
@@ -38,3 +41,5 @@
       </ul>
     </div>
   </nav>
+  </div>
+  <hr>
