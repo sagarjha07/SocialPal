@@ -9,37 +9,60 @@
       </div>
       <br>
         <% for(post of posts){ %>
-          <div class="card" style="background-color:black;color: white; opacity: 0.80; margin-bottom: 4px;" >
-            <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-            <div class="card-body">
-              <h5 class="card-title"><%=post.user.name%></h5>
-              <p class="card-text"><%=post.content%></p>
+          <div class="post">
+            <div class="d-flex justify-content-center row">
+                <div class="col-md-12">
+                    <div class="d-flex flex-column comment-section">
+                        <div class="bg-white p-2">
+                            <div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                                <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">Marry Andrews</span><span class="date text-black-50">Shared publicly - Jan 2020</span></div>
+                            </div>
+                            <div class="mt-2">
+                                <p class="comment-text"><%=post.content%></p>
+                            </div>
+                        </div>
+                        <div class="bg-white">
+                            <div class="d-flex flex-row fs-12">
+                                <div class="like p-2 cursor"><i class="fa fa-thumbs-up"></i><span class="ml-1">Like</span></div>
+                                <div class="like p-2 cursor action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-<%=post._id%>" href="#collapse-<%=post._id%>"><i class="fa fa-comment"></i><span class="ml-1">Comment</span></div>
+                                <!-- <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div> -->
+                                <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-light p-2">
+                          <form action="/comments/create" method="POST">
+                            <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                                <textarea class="form-control ml-1 shadow-none textarea" name="content" placeholder="Add a comment..." required></textarea>
+                                <input type="hidden" name="post" value="<%=post._id%>">
+                            </div>
+                            <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
+                            </form>
+                            <div id="collapse-<%=post._id%>" class="bg-light p-2 collapse" data-parent="#myGroup">
+                            <%for (comment of post.comments) {%>
+                              <div class="card p-3 mb-2">
+                                <div class="d-flex flex-row"> <img src="https://i.imgur.com/dwiGgJr.jpg" height="35" width="35" class="rounded-circle" style="margin-right: 10px;">
+                                    <div class="d-flex flex-column ms-2">
+                                        <h6 class="mb-1 text-primary"><%=comment.user.name%></h6>
+                                        <p class="comment-text"><%=comment.content%></p>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row gap-3 align-items-center">
+                                        <div class="d-flex align-items-center"> <i class="fa fa-heart"></i> <span class="ms-1 fs-10">Like</span> </div>
+                                        <div class="d-flex align-items-center"> <i class="fa fa-comment"></i> <span class="ms-1 fs-10">Comments</span> </div>
+                                    </div>
+                                    <div class="d-flex flex-row"> <span class="text-muted fw-normal fs-10">May 22,2020 12:10 PM</span> </div>
+                                </div> -->
+                            </div>
+                              <%}%>
+                            </div>
+                          </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-              <hr style="background-color:white;">
-              <div id="comment">
-                <form action="/comments/create" method="post">
-                  <input type="text" name="content" placeholder="Type here to add comment...">
-                  <input type="hidden" name="post" value="<%=post._id%>">
-                  <input type="submit" value="Add Comment">
-                </form>
-              </div>
-              <div class="card-body" style="color: white;">
-                <ul id="post-comment-<%=post._id%>">
-                  <% for(comment of post.comments){%>
-                    <p><%=comment.content%>
-                      <br>
-                      <small><%=comment.user.name%></small>
-                    </p>
-                  <%}%>
-                </ul>
-              </div>
-            </div>
-          </div> 
-        <%}%>
-        
+        </div>
+        <div class="col-md-12" style="background-color:navy; height: 5px;"></div>
+        <%}%> 
 </div>
 </div>
 

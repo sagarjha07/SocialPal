@@ -1,5 +1,43 @@
 body {
   font-family: "Numans", sans-serif; }
 
+.card {
+  border: none;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.03); }
+
+.comment-text {
+  font-size: 12px; }
+
+.fs-10 {
+  font-size: 12px; }
+
 .share {
   margin-top: 5px; }
+
+.post {
+  border-radius: 5px; }
+
+.date {
+  font-size: 11px; }
+
+.comment-text {
+  font-size: 12px; }
+
+.fs-12 {
+  font-size: 12px; }
+
+.shadow-none {
+  box-shadow: none; }
+
+.name {
+  color: #007bff; }
+
+.cursor:hover {
+  color: blue; }
+
+.cursor {
+  cursor: pointer; }
+
+.textarea {
+  resize: none; }
