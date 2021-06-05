@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="/css/home.css">
-<div class="container">
+<div id="home-container">
+<div class="container" id="feed-posts">
     <div class="col-md-12">
         <form action="/posts/create" id="new-post-form" method="POST">
         <textarea name="content" class="form-control" rows="4" placeholder="What are you thinking?"></textarea>
@@ -69,6 +70,56 @@
         <%}%> 
 </div>
 </div>
+<!-- <section id="user-friends">
+<h3>Friends List</h3>
+<%for(u of all_users){%>
+<ul class="list-group list-group-numbered">
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">
+            <a href="/users/profile/<%=u.id%>"><%=u.name%></a>
+        </div>
+      </div>
+</li>
+</ul>
+<%}%> -->
+<!-- </section> -->
+<div class="container" id="friends_user_list">
+    <div class="row">
+        <div class="col static">
+            <div class="profile-card">
+                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="user" class="profile-photo">
+            	<h5><a href="/users/profile/<%=user.id%>" class="text-white"><%=user.name%></a></h5>
+            	<h4 class="text-white"><i class="fa fa-user"></i> Friends List</h4>
+            </div><!--profile card ends-->
+            
+            <ul class="nav-news-feed">
+                <%for(u of all_users){%>
+              <li><i class="fa fa-user icon2"></i><div><a href="/users/profile/<%=u.id%>"><%=u.name%></a></div></li>
+              <%}%>
+              <!--  -->
+            </ul><!--news-feed links ends-->
+            
+        </div>
+	</div>
+</div>
+</div>
 
 
+
+
+<!-- <div id="chat-block">
+              <div class="title">Chat online</div>
+              <ul class="online-users list-inline">
+                <li><a href="#" title="Linda Lohan"><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+                <li><a href="#" title="Sophia Lee"><img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+                <li><a href="#" title="John Doe"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+                <li><a href="#" title="Alexis Clark"><img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+                <li><a href="#" title="James Carter"><img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+                <li><a href="#" title="Robert Cook"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+                <li><a href="#" title="Richard Bell"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+                <li><a href="#" title="Anna Young"><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+                <li><a href="#" title="Julia Cox"><img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="img-responsive profile-photo"><span class="online-dot"></span></a></li>
+              </ul>
+            </div>chat block ends -->
 

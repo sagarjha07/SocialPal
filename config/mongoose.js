@@ -4,6 +4,7 @@ mongoose.connect("mongodb://localhost/SocialPal_development", {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
 	useCreateIndex: true,
+	useFindAndModify:false
 });
 
 const db = mongoose.connection;

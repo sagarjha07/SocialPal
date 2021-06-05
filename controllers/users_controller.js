@@ -1,7 +1,9 @@
 const User = require("../models/user");
 
 module.exports.profile = (req, res) => {
-	res.render("user_profile", { title: "Profile" });
+	User.findById(req.params.id, function (err, user) {
+		return res.render("user_profile", { title: "Profile", profile_user: user });
+	});
 };
 
 module.exports.signUp = (req, res) => {
@@ -36,13 +38,23 @@ module.exports.create = async (req, res) => {
 	}
 };
 
-
 //sign-in
 module.exports.createSession = (req, res) => {
 	return res.redirect("/");
 };
 
-module.exports.signout=(req,res)=>{
+module.exports.signout = (req, res) => {
 	req.logout();
 	return res.redirect("/users/signin");
+};
+
+
+module.exports.updateProfile=(req,res)=>{
+	if(req.user.id==req.params.id){
+		User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+			return res.redirect("back");
+		})
+	}else{
+		return res.status(401).send('Unauthorized'); 
+	}
 }
