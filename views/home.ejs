@@ -9,8 +9,9 @@
         </form>
       </div>
       <br>
+      <div id="posts-list-container">
         <% for(post of posts){ %>
-          <div class="post">
+          <div class="post" id="post-<%=post._id%>">
             <div class="d-flex justify-content-center row">
                 <div class="col-md-12">
                     <div class="d-flex flex-column comment-section" >
@@ -29,7 +30,7 @@
                                 <!-- <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div> -->
                                 <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
                                 <% if(post.user.id==locals.user.id){%>
-                                <div class="like p-2 cursor"><a href="/posts/destroy/<%=post._id%>"  class="like cursor"><i class="fa fa-trash-alt"></i><span class="ml-1">Delete</span></a></div>
+                                <div class="like p-2 cursor"><a href="/posts/destroy/<%=post._id%>"  class="like cursor delete-post-button"><i class="fa fa-trash-alt"></i><span class="ml-1">Delete</span></a></div>
                                 <%}%>
                             </div>
                         </div>
@@ -70,6 +71,7 @@
         <%}%> 
 </div>
 </div>
+</div>
 <!-- <section id="user-friends">
 <h3>Friends List</h3>
 <%for(u of all_users){%>
@@ -104,6 +106,8 @@
 	</div>
 </div>
 </div>
+
+<script src="/js/home_posts.js"></script>
 
 
 

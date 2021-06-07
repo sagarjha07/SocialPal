@@ -13,7 +13,7 @@ module.exports.home = function (req, res) {
 	// });
 
 	// populate the user of each post
-	Post.find({})
+	Post.find({}).sort('-createdAt')
 		.populate("user")
 		.populate({
 			path: "comments",
