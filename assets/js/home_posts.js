@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="bg-light p-2" >
-                      <form action="/comments/create" method="POST">
+                      <form action="/comments/create" id="new-comment-form" method="POST">
                         <div class="d-flex flex-row align-items-start" style="padding-left: 10px;"><img class="rounded-circle" src="/images/sj.jpeg" width="35">
                             <textarea class="form-control ml-1 shadow-none textarea" name="content" placeholder="Add a comment..." required></textarea>
                             <input type="hidden" name="post" value="${post._id}">
@@ -64,7 +64,8 @@
                         </form>
                         
                         <div id="collapse-${post._id}" class="bg-light p-2 collapse" data-parent="#myGroup">
-                        
+                        <div id="comments-list-container">
+                        </div>
                         </div>
                       </div>
                 </div>
@@ -106,5 +107,82 @@
 		});
 	};
 
+	// method to create a comment using AJAX
+	let createComment = function () {
+		let newCommentForm = $("#new-comment-form");
+
+		newCommentForm.submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: "post",
+				url: "/comments/create",
+				data: newCommentForm.serialize(),
+				success: function (data) {
+					let newComment = newCommentDom(data.data.comment);
+					$("#comments-list-container").prepend(newComment);
+					new Noty({
+						theme: "relax",
+						text: "Comment added!!!",
+						type: "success",
+						layout: "topRight",
+						timeout: 1500,
+					}).show();
+					deleteComment($(" .delete-comment-button", newComment));
+				},
+				error: function (error) {
+					console.log(error.responseText);
+				},
+			});
+		});
+	};
+
+    // method to create a comment in DOM
+	let newCommentDom = function (comment) {
+		return $(`<div class="card p-3 mb-2" id="comment-${comment._id}">
+        <div class="d-flex flex-row"> <img src="/images/sj.jpeg" height="35" width="35" class="rounded-circle" style="margin-right: 10px;">
+            <div class="d-flex flex-column ms-2">
+                <h6 class="mb-1 text-primary">${comment.user.name}</h6>
+                <p class="comment-text">${comment.content}</p>
+            </div>
+        </div>
+        <div class="d-flex flex-row fs-12" style="padding-left: 35px;">
+            <div class="like p-2 cursor"><i class="fa fa-thumbs-up"></i><span class="ml-1">Like</span></div>
+                <div class="like p-2 cursor"><a href="/comments/destroy/${comment._id}"  class="like cursor delete-comment-button"><i class="fa fa-trash-alt"></i><span class="ml-1">Delete</span></a></div>
+        </div>
+    </div>`);
+	};
+
+    // method to delete a comment from Dom
+    let deleteComment=function(deleteLink){
+        $(deleteLink).click(function (e) {
+			e.preventDefault();
+
+			$.ajax({
+				type: "get",
+				url: $(deleteLink).prop("href"),
+				success: function (data) {
+					$(`#comment-${data.data.comment_id}`).remove();
+					new Noty({
+						theme: "relax",
+						text: "Comment deleted!!!",
+						type: "success",
+						layout: "topRight",
+						timeout: 1500,
+					}).show();
+				},
+				error: function (error) {
+					new Noty({
+						theme: "relax",
+						text: error.responseText,
+						type: "error",
+						layout: "topRight",
+						timeout: 1500,
+					}).show();
+				},
+			});
+		});
+    }
+
 	createPost();
+    createComment();
 }

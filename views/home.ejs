@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="bg-light p-2" >
-                          <form action="/comments/create" method="POST">
+                          <form action="/comments/create" id="new-comment-form" method="POST">
                             <div class="d-flex flex-row align-items-start" style="padding-left: 10px;"><img class="rounded-circle" src="/images/sj.jpeg" width="35">
                                 <textarea class="form-control ml-1 shadow-none textarea" name="content" placeholder="Add a comment..." required></textarea>
                                 <input type="hidden" name="post" value="<%=post._id%>">
@@ -44,6 +44,7 @@
                             </form>
                             
                             <div id="collapse-<%=post._id%>" class="bg-light p-2 collapse" data-parent="#myGroup">
+                            <div id="comments-list-container">
                             <%for (comment of post.comments) {%>
                               <div class="card p-3 mb-2">
                                 <div class="d-flex flex-row"> <img src="/images/sj.jpeg" height="35" width="35" class="rounded-circle" style="margin-right: 10px;">
@@ -57,10 +58,10 @@
                                     <% if(comment.user.id==locals.user.id || post.user.id==locals.user.id){%>
                                         <div class="like p-2 cursor"><a href="/comments/destroy/<%=comment._id%>"  class="like cursor"><i class="fa fa-trash-alt"></i><span class="ml-1">Delete</span></a></div>
                                     <%}%>
-                                    <!-- <div class="like p-2 cursor"><i class="fa fa-trash-alt"></i><span class="ml-1">Delete</span></div> -->
                                 </div>
                             </div>
                               <%}%>
+                            </div>
                             </div>
                           </div>
                     </div>

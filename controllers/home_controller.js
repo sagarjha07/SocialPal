@@ -1,6 +1,6 @@
 const Post = require("../models/post");
 const Comment = require("../models/comment");
-const User=require("../models/user");
+const User = require("../models/user");
 module.exports.home = function (req, res) {
 	// console.log(req.cookies);
 	// res.cookie('user_id', 25);
@@ -13,22 +13,24 @@ module.exports.home = function (req, res) {
 	// });
 
 	// populate the user of each post
-	Post.find({}).sort('-createdAt')
+	Post.find({})
+		.sort("-createdAt")
 		.populate("user")
 		.populate({
 			path: "comments",
+			options:{sort:{"createdAt":"descending"}},
 			populate: {
 				path: "user",
 			},
 		})
 		.exec(function (err, posts) {
-			User.find({},function(err,users){
+			User.find({}, function (err, users) {
 				return res.render("home", {
 					title: "SocialPal | Home",
 					posts: posts,
-					all_users:users 
+					all_users: users,
 				});
-			})
+			});
 		});
 };
 
