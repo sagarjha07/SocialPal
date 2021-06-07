@@ -11,6 +11,8 @@ const mongoose=require("mongoose");
 //connect-mongo
 const MongoStore = require("connect-mongo");
 const sassMiddleware=require("node-sass-middleware");
+const flash=require("connect-flash");
+const customMiddlewareFlash=require("./config/middleware");
 
 const PORT = 8000;
 
@@ -65,6 +67,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+app.use(flash());
+//custom middleware for setting flash message into locals;
+app.use(customMiddlewareFlash.setFlash);
 
 //use Routes
 app.use("/", require("./routes"));

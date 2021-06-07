@@ -40,11 +40,13 @@ module.exports.create = async (req, res) => {
 
 //sign-in
 module.exports.createSession = (req, res) => {
+	req.flash('success',"Logged In Succesfully..");
 	return res.redirect("/");
 };
 
 module.exports.signout = (req, res) => {
 	req.logout();
+	req.flash('success',"You have Logged Out..."); 
 	return res.redirect("/users/signin");
 };
 
@@ -52,9 +54,11 @@ module.exports.signout = (req, res) => {
 module.exports.updateProfile=(req,res)=>{
 	if(req.user.id==req.params.id){
 		User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+			req.flash("success","Profile Updated...")
 			return res.redirect("back");
 		})
 	}else{
+		req.flash("error","You can't update the profile!!!")
 		return res.status(401).send('Unauthorized'); 
 	}
 }

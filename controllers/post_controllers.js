@@ -6,10 +6,11 @@ module.exports.createPost = async (req, res) => {
 			content: req.body.content,
 			user: req.user._id,
 		});
+		req.flash("success","Post Published!!!");
 		return res.redirect("/");
 	} catch (err) {
 		if (err) {
-			console.log("error in creating a post");
+			req.flash("error","Error in creating post!!");
 			return res.redirect("back");
 		}
 	}
@@ -22,9 +23,10 @@ module.exports.destroy = async (req, res) => {
 			post.remove();
 			Comment.deleteMany({ post: req.params.id });
 		}
+		req.flash("success","Post Deleted!!");
 		return res.redirect("back");
 	} catch (error) {
-		console.log("error in deleting post",error);
+		req.flash("error","You can delete the Post!!!");
 		return res.redirect("back");
 	}
 };
