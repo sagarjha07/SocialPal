@@ -16,7 +16,11 @@
                 <div class="col-md-12">
                     <div class="d-flex flex-column comment-section" >
                         <div class="bg-white p-2 " >
-                            <div class="d-flex flex-row user-info" style="padding-left: 10px;"><img class="rounded-circle" src="/images/sj.jpeg" width="40">
+                          <%if(post.user.avatar){%>
+                            <div class="d-flex flex-row user-info" style="padding-left: 10px;"><img class="rounded-circle" src="<%=post.user.avatar%>" width="40">
+                            <%}else{%>
+                              <div class="d-flex flex-row user-info" style="padding-left: 10px;"><img class="img" src="/images/default.png" width="40">
+                              <%}%>
                                 <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name"><%=post.user.name%></span><span class="date text-black-50">Shared publicly - <%=post.createdAt%></span></div>
                             </div>
                             <div class="mt-2" style="padding-left: 10px;">
@@ -36,7 +40,11 @@
                         </div>
                         <div class="bg-light p-2" >
                           <form action="/comments/create" id="new-comment-form" method="POST">
-                            <div class="d-flex flex-row align-items-start" style="padding-left: 10px;"><img class="rounded-circle" src="/images/sj.jpeg" width="35">
+                            <%if(user.avatar){%>
+                            <div class="d-flex flex-row align-items-start" style="padding-left: 10px;"><img class="rounded-circle" src="<%=user.avatar%>" width="35">
+                              <%}else{%>
+                                <div class="d-flex flex-row align-items-start" style="padding-left: 10px;"><img class="rounded-circle" src="/images/default.png" width="35">
+                              <%}%>
                                 <textarea class="form-control ml-1 shadow-none textarea" name="content" placeholder="Add a comment..." required></textarea>
                                 <input type="hidden" name="post" value="<%=post._id%>">
                             </div>
@@ -47,8 +55,13 @@
                             <div id="comments-list-container">
                             <%for (comment of post.comments) {%>
                               <div class="card p-3 mb-2">
-                                <div class="d-flex flex-row"> <img src="/images/sj.jpeg" height="35" width="35" class="rounded-circle" style="margin-right: 10px;">
-                                    <div class="d-flex flex-column ms-2">
+                                <%if(comment.user.avatar){%>
+                                <div class="d-flex flex-row"> <img src="<%=comment.user.avatar%>" height="35" width="35" class="rounded-circle" style="margin-right: 10px;">
+                                  <%}else{%>
+                                    <div class="d-flex flex-row"> <img src="/images/default.png" height="35" width="35" class="rounded-circle" style="margin-right: 10px;">
+                                  <%}%>
+                              
+                                  <div class="d-flex flex-column ms-2">
                                         <h6 class="mb-1 text-primary"><%=comment.user.name%></h6>
                                         <p class="comment-text"><%=comment.content%></p>
                                     </div>
@@ -91,7 +104,12 @@
     <div class="row">
         <div class="col static">
             <div class="profile-card">
-                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="user" class="profile-photo">
+              <%if(user.avatar){%>
+                <img src="<%=user.avatar%>" alt="user" class="profile-photo">
+              <%}else{%>
+                <img src="/images/default.png" alt="user" class="profile-photo">
+                <%}%>
+          
             	<h5><a href="/users/profile/<%=user.id%>" class="text-white"><%=user.name%></a></h5>
             	<h4 class="text-white"><i class="fa fa-user"></i> Friends List</h4>
             </div><!--profile card ends-->

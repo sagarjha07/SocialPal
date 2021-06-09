@@ -7,7 +7,11 @@
                   <div class="bg-picture text-center">
                       <div class="bg-picture-overlay"></div>
                       <div class="profile-info-name">
+                          <%if(profile_user.avatar){%>
                           <img src="<%=profile_user.avatar%>" style="width: 400px; height: 400px;" class="img-circle img-thumbnail rounded-circle" alt="profile-image">
+                      <%}else{%>
+                        <img src="/images/default.png" style="width: 400px; height: 400px;" class="img-circle img-thumbnail rounded-circle" alt="profile-image">
+                          <%}%>
                           <h3 class="text-white"><%=profile_user.name%></h3>
                       </div>
                   </div>
