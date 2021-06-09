@@ -29,6 +29,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(express.static("./assets"));
+//make the uploads path available for the browser
+app.use("/uploads",express.static(__dirname+'/uploads'));
 
 //express layout
 app.use(expressLayout);
