@@ -1,5 +1,6 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const bcrypt=require("bcryptjs");
 const User = require("../models/user");
 
 //authentication using passport
@@ -16,8 +17,17 @@ passport.use(
 					console.log("Error in finding User -->passport ", err);
 					return done(err);
 				}
-				if (!user || user.password != password) {
+
+				if (!user) {
 					req.flash("error","Invalid Credentials!!")
+					return done(null, false);
+				}
+				if(!bcrypt.compareSync(password, user.password)){
+					req.flash("error","Invalid Credentials!!")
+					return done(null, false);
+				}
+				if(!user.isVerified){
+					req.flash("error","Verify Your Email Address!!")
 					return done(null, false);
 				}
 				return done(null, user);
