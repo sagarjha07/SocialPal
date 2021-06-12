@@ -1,8 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const User = require("../models/user");
-const Token=require("../models/token");
+const Token = require("../models/token");
+const userMailer = require("../mailers/users_mailer");
 
 module.exports.profile = (req, res) => {
 	User.findById(req.params.id, function (err, user) {
@@ -37,10 +39,12 @@ module.exports.create = async (req, res) => {
 			email,
 			password: hashPassword,
 		});
-		let token= await Token.create({
-			user_id:user._id,
-			token:dd,
-		})
+		let token = await Token.create({
+			user_id: user._id,
+			token: crypto.randomBytes(16).toString("hex"),
+		});
+		req.flash("success", "Verify Your Email Adress!!!");
+		userMailer.accountVerify(req, token, user);
 		return res.redirect("/users/signin");
 	} catch (err) {
 		console.log("Error in user signUp", err);
@@ -85,3 +89,40 @@ module.exports.updateProfile = async (req, res) => {
 		}
 	} catch (error) {}
 };
+
+module.exports.verifyAccountLink = async (req, res) => {
+	try {
+		const token = await Token.findOne({ token: req.params.token });
+		if (!token) {
+			req.flash(
+				"error",
+				"Your verification link may have expired. Please click on resend for verify your Email..."
+			);
+			return res.redirect("/users/signin");
+		} else {
+			const user = await User.findOne({
+				_id: token.user_id,
+				email: req.params.email,
+			});
+			if (!user) {
+				req.flash("error", "Unable to find the User....");
+				return res.redirect("/users/signup");
+			} else if (user.isVerified) {
+				req.flash("success", "User is Already Verified....");
+				return res.redirect("/users/signin");
+			} else {
+				user.isVerified = true;
+				await user.save();
+				req.flash("success", "User Verified....");
+				return res.redirect("/users/signin");
+			}
+		}
+	} catch (error) {
+		req.flash("error","Internal Server Error!!!");
+		console.log("Error in verification",error);
+	}
+};
+
+module.exports.resendLink=(req,res)=>{
+	
+}
