@@ -2,7 +2,13 @@ const queue = require("../config/kue");
 const userMailer = require("../mailers/users_mailer");
 
 queue.process("user_emails", function (job, done) {
-	console.log("email worker is processing a job ", job.data);
+	// console.log("email worker is processing a job ", job.data);
 	userMailer.accountVerify(job.data);
+	done();
+});
+
+queue.process("change_password_emails", function (job, done) {
+	// console.log("email worker is processing a job ", job.data);
+	userMailer.changePasswordLink(job.data);
 	done();
 });

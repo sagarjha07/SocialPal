@@ -142,4 +142,90 @@ module.exports.verifyAccountLink = async (req, res) => {
 	}
 };
 
-module.exports.resendLink = (req, res) => {};
+module.exports.forgotPassword = (req, res) => {
+	return res.render("forgot_password", {
+		title: "SocialPal | Change-Password",
+	});
+};
+
+module.exports.changePasswordLink = async (req, res) => {
+	try {
+		let user = await User.findOne({ email: req.body.email });
+		if (!user) {
+			req.flash("error", "User with this email doesn't exist!!!");
+			return res.redirect("back");
+		}
+		let token = await Token.create({
+			user_id: user._id,
+			token: crypto.randomBytes(16).toString("hex"),
+		});
+		req.flash("success", "Check your email address for reset-password-link!!!");
+		let data = {
+			token: stringify(token),
+			user: stringify(user),
+		};
+		let job = queue
+			.create("change_password_emails", data)
+			.priority("critical")
+			.save(function (err) {
+				if (err) {
+					console.log("error in creating queue,", err);
+					return;
+				}
+				// console.log("change_password_emails job enqueued", job.id);
+			});
+
+		return res.redirect("/users/signin");
+	} catch (err) {
+		if (err) {
+			console.log("Error in generating reset-password link:", err);
+			req.flash("error", "Internal Server Error!!!");
+			return res.redirect("back");
+		}
+	}
+};
+
+module.exports.resetPasswordPage = (req, res) => {
+	// console.log(req.params.email);
+	// console.log(req.params.token);
+	return res.render("reset_password", {
+		title: "SocialPal | Reset-Password",
+		email: req.params.email,
+		token: req.params.token,
+	});
+};
+
+module.exports.changePassword = async (req, res) => {
+	try {
+		const token = await Token.findOne({ token: req.body.token });
+		if (!token) {
+			req.flash(
+				"error",
+				"Your Reset-password link may have expired. Please click on Resend for another reset password link!!! "
+			);
+			return res.redirect("back");
+		} else {
+			const user = await User.findOne({
+				_id: token.user_id,
+				email: req.body.email,
+			});
+			if (!user) {
+				req.flash("error", "Unable to find the User....");
+				return res.redirect("/users/signup");
+			} else if (req.body.password != req.body.confirm_password) {
+				req.flash("error", "Confirm password must be same as new password!!");
+				return res.redirect("back");
+			} else {
+				const hashPassword = await bcrypt.hashSync(req.body.password, 12);
+				user.password = hashPassword;
+				await user.save();
+				req.flash("success", "Password Changed...");
+				return res.redirect("/users/signin");
+			}
+		}
+	} catch (error) {
+		req.flash("error", "Internal Server Error!!!");
+		console.log("Error in Changing Password", error);
+		return res.redirect("back");
+	}
+};
