@@ -5,6 +5,10 @@ const crypto = require("crypto");
 const User = require("../models/user");
 const Token = require("../models/token");
 const userMailer = require("../mailers/users_mailer");
+const queue = require("../config/kue");
+const userEmailWorker = require("../workers/user_email_worker");
+const { stringify, parse } = require("flatted");
+const { StringDecoder } = require("string_decoder");
 
 module.exports.profile = (req, res) => {
 	User.findById(req.params.id, function (err, user) {
@@ -34,7 +38,7 @@ module.exports.create = async (req, res) => {
 			return res.redirect("back");
 		}
 		const hashPassword = await bcrypt.hashSync(password, 12);
-		const user = await User.create({
+		let user = await User.create({
 			name,
 			email,
 			password: hashPassword,
@@ -44,7 +48,22 @@ module.exports.create = async (req, res) => {
 			token: crypto.randomBytes(16).toString("hex"),
 		});
 		req.flash("success", "Verify Your Email Adress!!!");
-		userMailer.accountVerify(req, token, user);
+		// userMailer.accountVerify(req, token, user);
+		let data = {
+			token: stringify(token),
+			user: stringify(user),
+		};
+		let job = queue
+			.create("user_emails", data)
+			.priority("critical")
+			.save(function (err) {
+				if (err) {
+					console.log("error in creating queue,", err);
+					return;
+				}
+				console.log("user_email job enqueued", job.id);
+			});
+
 		return res.redirect("/users/signin");
 	} catch (err) {
 		console.log("Error in user signUp", err);
@@ -118,11 +137,9 @@ module.exports.verifyAccountLink = async (req, res) => {
 			}
 		}
 	} catch (error) {
-		req.flash("error","Internal Server Error!!!");
-		console.log("Error in verification",error);
+		req.flash("error", "Internal Server Error!!!");
+		console.log("Error in verification", error);
 	}
 };
 
-module.exports.resendLink=(req,res)=>{
-	
-}
+module.exports.resendLink = (req, res) => {};

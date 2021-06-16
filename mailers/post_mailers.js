@@ -1,21 +1,18 @@
 const nodeMailer = require("../config/nodemailer");
-const { parse } = require("flatted");
-module.exports.accountVerify = (data) => {
+
+module.exports.newPost = (post) => {
 	// console.log("Inside newComment mailer");
-	let user = parse(data.user);
-	let token = parse(data.token);
 	let HTMLstring = nodeMailer.renderTemplate(
 		{
-			user: user,
-			token: token,
+			post: post,
 		},
-		"/users/user_Activation.ejs"
+		"/posts_template/new_post.ejs"
 	);
 	nodeMailer.transporter.sendMail(
 		{
 			from: "sagarkumarjha19@gmail.com",
-			to: user.email,
-			subject: "Account Verification Link",
+			to: post.user.email,
+			subject: "New Post published..",
 			html: HTMLstring,
 		},
 		(err, info) => {

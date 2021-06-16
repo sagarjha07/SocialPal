@@ -1,11 +1,23 @@
 const Post = require("../models/post");
 const Comment = require("../models/comment");
+const queue = require("../config/kue");
+const postEmailWorker = require("../workers/post_email_worker");
 module.exports.createPost = async (req, res) => {
 	try {
-		const newPost = await Post.create({
+		let newPost = await Post.create({
 			content: req.body.content,
 			user: req.user._id,
 		});
+		newPost = await newPost.populate("user", "name email").execPopulate();
+		let job = queue
+			.create("posts_emails", newPost)
+			.priority("high")
+			.save(function (err) {
+				if (err) {
+					console.log("error in creating post queue");
+					return;
+				}
+			});
 		if (req.xhr) {
 			return res.status(200).json({
 				data: {
@@ -14,6 +26,7 @@ module.exports.createPost = async (req, res) => {
 				message: "Post created!!!",
 			});
 		}
+
 		req.flash("success", "Post Published!!!");
 		return res.redirect("/");
 	} catch (err) {
