@@ -11,7 +11,7 @@
       <br>
       <div id="posts-list-container">
         <% for(post of posts){ %>
-          <div class="post" id="post-<%=post._id%>">
+          <div class="post" id="post-<%=post._id%>" data-id=<%=post._id%>>
             <div class="d-flex justify-content-center row">
                 <div class="col-md-12">
                     <div class="d-flex flex-column comment-section" >
@@ -29,7 +29,7 @@
                         </div>
                         <div class="bg-white">
                             <div class="d-flex flex-row fs-12" style="padding-left: 10px;">
-                                <div class="like p-2 cursor"><i class="fa fa-thumbs-up"></i><span class="ml-1">Like</span></div>
+                                <div class="like p-2 cursor likeButton"><i class="fa fa-heart"></i><span class="ml-1">Like<span class="like-cnt">(<%=post.likes.length%>)</span></span></div>
                                 <div class="like p-2 cursor action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-<%=post._id%>" href="#collapse-<%=post._id%>"><i class="fa fa-comment"></i><span class="ml-1">Comment</span></div>
                                 <!-- <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div> -->
                                 <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-row fs-12" style="padding-left: 35px;">
-                                    <div class="like p-2 cursor"><i class="fa fa-thumbs-up"></i><span class="ml-1">Like</span></div>
+                                    <!-- <div class="like p-2 cursor"><i class="fa fa-thumbs-up"></i><span class="ml-1">Like</span></div> -->
                                     <% if(comment.user.id==locals.user.id || post.user.id==locals.user.id){%>
                                         <div class="like p-2 cursor"><a href="/comments/destroy/<%=comment._id%>"  class="like cursor"><i class="fa fa-trash-alt"></i><span class="ml-1">Delete</span></a></div>
                                     <%}%>

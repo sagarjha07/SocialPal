@@ -29,9 +29,23 @@
 		});
 	};
 
+	$(document).on("click", ".likeButton", async (event) => {
+		const button = $(event.target);
+		const postId=getPostIdfromElement(button);
+		const postData=await axios.patch(`/posts/${postId}/like`);
+		button.find(".like-cnt").text('('+postData.data.likes.length+')');
+	});
+
+	function getPostIdfromElement(element) {
+		const isRoot = element.hasClass("post");
+		const rootElement = isRoot === true ? element : element.closest(".post");
+		const postId=rootElement.data().id;
+		return postId;
+	}
+
 	// method to create a post in DOM
 	let newpostDom = function (post) {
-		return $(`<div class="post" id="post-${post._id}">
+		return $(`<div class="post" id="post-${post._id} " data-id=${post._id}>
         <div class="d-flex justify-content-center row">
             <div class="col-md-12">
                 <div class="d-flex flex-column comment-section" >
@@ -45,7 +59,7 @@
                     </div>
                     <div class="bg-white">
                         <div class="d-flex flex-row fs-12" style="padding-left: 10px;">
-                            <div class="like p-2 cursor"><i class="fa fa-thumbs-up"></i><span class="ml-1">Like</span></div>
+                            <div class="like p-2 cursor likeButton"><i class="fa fa-heart"></i><span class="ml-1">Like <span class="like-cnt">(${post.likes.length})</span></span></div>
                             <div class="like p-2 cursor action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-${post._id}" href="#collapse-${post._id}"><i class="fa fa-comment"></i><span class="ml-1">Comment</span></div>
                             <!-- <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div> -->
                             <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
@@ -136,7 +150,7 @@
 		});
 	};
 
-    // method to create a comment in DOM
+	// method to create a comment in DOM
 	let newCommentDom = function (comment) {
 		return $(`<div class="card p-3 mb-2" id="comment-${comment._id}">
         <div class="d-flex flex-row"> <img src="/images/sj.jpeg" height="35" width="35" class="rounded-circle" style="margin-right: 10px;">
@@ -146,15 +160,14 @@
             </div>
         </div>
         <div class="d-flex flex-row fs-12" style="padding-left: 35px;">
-            <div class="like p-2 cursor"><i class="fa fa-thumbs-up"></i><span class="ml-1">Like</span></div>
                 <div class="like p-2 cursor"><a href="/comments/destroy/${comment._id}"  class="like cursor delete-comment-button"><i class="fa fa-trash-alt"></i><span class="ml-1">Delete</span></a></div>
         </div>
     </div>`);
 	};
 
-    // method to delete a comment from Dom
-    let deleteComment=function(deleteLink){
-        $(deleteLink).click(function (e) {
+	// method to delete a comment from Dom
+	let deleteComment = function (deleteLink) {
+		$(deleteLink).click(function (e) {
 			e.preventDefault();
 
 			$.ajax({
@@ -181,8 +194,8 @@
 				},
 			});
 		});
-    }
+	};
 
 	createPost();
-    createComment();
+	createComment();
 }

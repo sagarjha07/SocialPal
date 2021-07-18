@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 const Comment = require("../models/comment");
+const User = require("../models/user");
 const queue = require("../config/kue");
 const postEmailWorker = require("../workers/post_email_worker");
 module.exports.createPost = async (req, res) => {
@@ -58,4 +59,26 @@ module.exports.destroy = async (req, res) => {
 		req.flash("error", "You can't delete the Post!!!");
 		return res.redirect("back");
 	}
+};
+
+module.exports.createLike = async (req, res) => {
+	const postId = req.params.id;
+	const userId = req.user._id;
+
+	const isLiked = req.user.likes && req.user.likes.includes(postId);
+
+	const option = isLiked ? "$pull" : "$addToSet";
+
+	req.user = await User.findByIdAndUpdate(
+		userId,
+		{ [option]: { likes: postId } },
+		{ new: true }
+	);
+
+	const post = await Post.findByIdAndUpdate(
+		postId,
+		{ [option]: { likes: userId } },
+		{ new: true }
+	);
+	res.status(200).json(post);
 };
