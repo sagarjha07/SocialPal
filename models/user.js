@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema(
 				ref: "Post",
 			},
 		],
+		friendships: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Friendship",
+			},
+		],
 	},
 	{ timestamps: true }
 );
