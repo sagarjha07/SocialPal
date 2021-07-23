@@ -15,18 +15,18 @@ The Application is deployed in <big>[http://socialPal.xyz](http://socialPal.xyz)
 
 ### Home Page
 
-![Home Page](images/homepage.png)
+![Home Page](/images/homepage.png)
 
 ### Signup Page
 
-![Signup Page](images/signup_page.png)
+![Signup Page](/images/signup_page.png)
 
 ### Login Page
 
-![Login Page](images/login_page.png)
+![Login Page](/images/login_page.png)
 
 ### Profile Page
 
-![Profile Page](images/profile_page.png)
+![Profile Page](/images/profile_page.png)
 
 
