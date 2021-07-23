@@ -2,12 +2,10 @@
 <% if (locals.user){ %>
 	<div id="user-chat-box">
 		<div id="chat-options">
-    	<span>Chat Room</span>
-    	<ul id="options">
-        	<li id="minimize">-</li>&ensp;
-        	<li id="maximize"><i class="fa3 fa-square"></i></li>&ensp;
-        	
-    	</ul>
+    	<span style="font-size: medium;">SocialPal Room</span>
+    	<!-- <ul id="options">
+        	<li id="minimize"><i class="fa fa-window-minimize" style="color: black;" aria-hidden="true"></i></li>&ensp;
+    	</ul> -->
 		</div>
 		<ul id="chat-messages-list">
 			<li class="other-message">
@@ -22,8 +20,8 @@
 
 		</ul>
 		<div id="chat-message-input-container">
-			<input id="chat-message-input" placeholder="Type message here">
-			<button id="send-message">Send</button>
+			<input id="chat-message-input" placeholder="Type message here" autocomplete="off">
+			<button  id="send-message">Send</button>
 		</div>
 
 	</div>
