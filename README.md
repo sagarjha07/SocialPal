@@ -23,7 +23,7 @@ The Application is deployed in <big>[http://socialPal.xyz](http://socialPal.xyz)
 
 ### Login Page
 
-![Login Page](/images/login_page.png)
+![Login Page](images/default.png)
 
 ### Profile Page
 
