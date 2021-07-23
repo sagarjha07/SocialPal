@@ -7,28 +7,32 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocal = require("./config/passport-local-strategy");
-const passportJwt=require("./config/passport-jwt-strategy");
-const mongoose=require("mongoose");
+const passportJwt = require("./config/passport-jwt-strategy");
+const passportGoogle = require("./config/passport-google-oauth2-strategy");
+
+const mongoose = require("mongoose");
 //connect-mongo
 const MongoStore = require("connect-mongo");
-const sassMiddleware=require("node-sass-middleware");
-const flash=require("connect-flash");
-const customMiddlewareFlash=require("./config/middleware");
+const sassMiddleware = require("node-sass-middleware");
+const flash = require("connect-flash");
+const customMiddlewareFlash = require("./config/middleware");
 
 // setup the chat server to be used with socket.io
-const chatServer = require('http').Server(app);
-const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
-console.log('chat server is listening on port 5000');
+const chatServer = require("http").Server(app);
+const chatSockets = require("./config/chat_sockets").chatSockets(chatServer);
+console.log("chat server is listening on port 5000");
 
 const PORT = 8000;
 
-app.use(sassMiddleware({
-	src:"./assets/scss",
-	dest:"./assets/css",
-	debug:true,
-	outputStyle:'extended',
-	prefix:'/css'
-}));
+app.use(
+	sassMiddleware({
+		src: "./assets/scss",
+		dest: "./assets/css",
+		debug: true,
+		outputStyle: "extended",
+		prefix: "/css",
+	})
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -36,7 +40,7 @@ app.use(cookieParser());
 
 app.use(express.static("./assets"));
 //make the uploads path available for the browser
-app.use("/uploads",express.static(__dirname+'/uploads'));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 //express layout
 app.use(expressLayout);
@@ -86,4 +90,3 @@ chatServer.listen(PORT, (err) => {
 	if (err) console.log("error in running server:", err);
 	console.log("Server is running on port:", PORT);
 });
-
