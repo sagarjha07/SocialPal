@@ -1,9 +1,5 @@
 # SOCIALPAL (SOCIAL NETWORKING WEBSITE)
 
-# Live Application URL
-
-The Application is deployed in <big>[http://socialPal.xyz](http://socialPal.xyz)</big>
-
 ## A Social Networking website where user can:
 
 - Login/Logout via signing up or using google oAuth
