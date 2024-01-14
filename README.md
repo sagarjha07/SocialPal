@@ -1,6 +1,6 @@
 # SOCIALPAL (SOCIAL NETWORKING WEBSITE)
 
-## A Social Networking website where user can:
+### A Social Networking website where user can:
 
 - Login/Logout via signing up or using google oAuth
 - Add a post/comment.
